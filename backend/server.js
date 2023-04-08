@@ -1,12 +1,14 @@
 const express = require('express')
 const app  = express()
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
+
 require('dotenv').config();
 
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(express.json())
-
+app.use(cookieParser());
 
 const mongoose = require("mongoose")
 mongoose.connect(process.env.ATLAS_URI,{useNewUrlParser:true})

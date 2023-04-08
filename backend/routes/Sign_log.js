@@ -28,6 +28,8 @@ router.route('/signup').post(async (req,res)=>{
         const token = jwt.sign({USER_ID},process.env.SECRET_KEY,{ expiresIn: 3 * 24 * 60 * 60 })
         console.log("JWT TOKEN",token)
 
+   
+
         const RETURN_OBJECT = {
             Userid: SAVED_USER._id,
             jwtToken: token
@@ -46,6 +48,35 @@ router.route('/signup').post(async (req,res)=>{
             res.status(500).json({ERR_MSG: 'Internal Server Error!'});
         }     
     }
+
+})
+
+
+router.route('/login').post(async(req,res)=>{
+    const {username,password} = req.body
+    const user = await Users.findOne({$or:[{username:username},{email:username}]})
+    console.log(user)
+    if (!user){
+        return res.status(401).json({ERR_MSG: 'This user does not exist!'})
+    }
+
+    const isMatch = await bcrypt.compare(password,user.password);
+    if(!isMatch){
+        return res.status(401).json({ ERR_MSG: 'Invalid credentials!' });
+    }
+
+    const token = jwt.sign({USER_ID: user._id}, process.env.SECRET_KEY, { expiresIn: 3 * 24 * 60 * 60 });
+    console.log("JWT TOKEN", token);
+
+    const RETURN_OBJECT = {
+        Userid: user._id,
+        jwtToken: token
+    }
+
+   
+
+    res.status(200).json(RETURN_OBJECT)
+
 
 })
 
