@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { Link } from "react-router-dom";
 
+import MyContext from '../MyContext'
+
 function Navbar() {
 
-    const [Loggedin,setlogin] = useState(false)
+    const { LOGGED_IN } = useContext(MyContext) 
 
   return (
     <div class="navbar bg-base-400">
@@ -15,10 +17,10 @@ function Navbar() {
 ChatVerse</a>
     </div>
 
-{!Loggedin ? (
+{!LOGGED_IN ? (
     <div class="flex-none gap-3 mx-4">
-        <Link to='/Signup'><button class="btn btn-active btn-secondary">Sign up</button></Link>
-        <Link to='/Login'><button class="btn btn-active">Login</button></Link>
+        <Link to='/Signup'><button class="btn btn-md btn-active btn-accent">Sign up</button></Link>
+        <Link to='/Login'><button class="btn  btn-sm btn-active">Login</button></Link>
     </div>
 )
 

@@ -32,8 +32,11 @@ router.route('/signup').post(async (req,res)=>{
 
         const RETURN_OBJECT = {
             Userid: SAVED_USER._id,
-            jwtToken: token
+            //jwtToken: token
         }
+
+        
+        res.cookie('jwt',token)
 
         res.status(201).json(RETURN_OBJECT)
 
@@ -43,6 +46,9 @@ router.route('/signup').post(async (req,res)=>{
         if(err.code==11000){
             const field = err.message.split('index: ')[1].split(' dup key')[0];
             res.status(409).json({DUP_FIELD: field});
+        }
+        else if(err.code===18){
+            res.status(408).json({ERR_MSG: 'Minimum Length should be 6'});
         }
         else{
             res.status(500).json({ERR_MSG: 'Internal Server Error!'});
@@ -57,7 +63,7 @@ router.route('/login').post(async(req,res)=>{
     const user = await Users.findOne({$or:[{username:username},{email:username}]})
     console.log(user)
     if (!user){
-        return res.status(401).json({ERR_MSG: 'This user does not exist!'})
+        return res.status(402).json({ERR_MSG: 'This user does not exist!'})
     }
 
     const isMatch = await bcrypt.compare(password,user.password);
@@ -70,14 +76,21 @@ router.route('/login').post(async(req,res)=>{
 
     const RETURN_OBJECT = {
         Userid: user._id,
-        jwtToken: token
+        // jwtToken: token
     }
 
    
+    res.cookie('jwt',token)
 
     res.status(200).json(RETURN_OBJECT)
 
 
+})
+
+
+router.route('/cookie').get((req,res)=>{
+    
+    console.log(req.cookies)
 })
 
 module.exports = router;
