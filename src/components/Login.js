@@ -9,7 +9,7 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const { LOGGED_IN, setlogin, setuserid } = useContext(MyContext) 
+  const { LOGGED_IN, setlogin, setuserid, setuser_name } = useContext(MyContext) 
 
     const targetRef = useRef(null)
 
@@ -31,10 +31,11 @@ function Login() {
       })
       .then((response)=>{
 
-        const {Userid} = response.data
+        const {Userid,username} = response.data
 
         console.log("SIGNED IN",Userid)
         setuserid(Userid)
+        setuser_name(username)
         setlogin(true)
         navigate('/home')
 

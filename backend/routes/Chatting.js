@@ -8,6 +8,21 @@ const Rooms = require("../schemas/room.model");
 
 const authRoute = require('../authentication/auth.js')
 
+
+router.route('/VerifyLoggedin').get(authRoute,async(req,res)=>{
+  
+    const user = await Users.findOne({ _id: req.USER_ID_DEC });
+    if(!user){
+        res.status(401).json('NOT LOGGED IN')
+    }
+    const RETURN_OBJ = {
+        username: user.username,
+        user_id: user._id
+    }
+
+    res.status(201).json(RETURN_OBJ)
+})
+
 router.route('/CreateRoom').post(authRoute,async(req,res)=>{
 
     const { roomName } = req.body

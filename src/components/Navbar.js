@@ -6,7 +6,7 @@ import MyContext from '../MyContext'
 
 function Navbar() {
 
-  const { LOGGED_IN } = useContext(MyContext) 
+  const { LOGGED_IN, USER_NAME } = useContext(MyContext) 
   const {setgroupsjoined} = useContext(MyContext)
 
   const [CreateGroupName, setCGN] = useState('')
@@ -154,6 +154,7 @@ Create Group</label>
       <div class="form-control">
         <input type="text" placeholder="Search" class="input input-bordered" />
       </div>
+      <h3>Welcome, {USER_NAME}</h3>
       <div class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">

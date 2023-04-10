@@ -10,7 +10,7 @@ function Signup() {
 
     const targetRef = useRef(null)
 
-    const { LOGGED_IN, setlogin, setuserid } = useContext(MyContext) 
+    const { LOGGED_IN, setlogin, setuserid, setuser_name } = useContext(MyContext) 
 
 
     const [username,setUsername] = useState("")
@@ -63,10 +63,11 @@ function Signup() {
       })
       .then((response)=>{
 
-        const {Userid} = response.data
+        const {Userid,username} = response.data
   
         console.log("SIGNED UP",Userid)
         setuserid(Userid)
+        setuser_name(username)
         setlogin(true)
         navigate('/home')
         

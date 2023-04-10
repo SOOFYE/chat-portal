@@ -32,7 +32,7 @@ router.route('/signup').post(async (req,res)=>{
 
         const RETURN_OBJECT = {
             Userid: SAVED_USER._id,
-            //jwtToken: token
+            username: SAVED_USER.username
         }
 
         
@@ -76,7 +76,7 @@ router.route('/login').post(async(req,res)=>{
 
     const RETURN_OBJECT = {
         Userid: user._id,
-        // jwtToken: token
+        username: user.username
     }
 
    
