@@ -19,6 +19,8 @@ mongoose.connection.once("open",()=>{
 const Sign_log_routes = require("./routes/Sign_log.js")
 app.use('/',Sign_log_routes)
 
+const Chatting = require('./routes/Chatting')
+app.use('/',Chatting)
 
 
 app.listen(5000,()=>{
