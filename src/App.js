@@ -8,6 +8,12 @@ import MyContext from '../src/MyContext'
 
 import axios from 'axios';
 
+import { io } from 'socket.io-client'
+
+import Cookies from 'js-cookie';
+
+
+
 
 import {
   BrowserRouter,
@@ -25,7 +31,13 @@ function App() {
   const [USER_ID,setuserid] = useState(0)
   const [USER_NAME,setuser_name] = useState('')
   const [GROUPS_JOINED,setgroupsjoined] = useState([])
+  const [SOCKET,setsocket] = useState(io())
+  const [CURRENT_ROOM_JOINED, setroomjoined] = useState('') //id
+  const [ROOM_NAME,setroomname] = useState('')
+  const [GROUP_ADMIN,setgroupadmin] = useState('')
 
+
+  const [GROUP_DETAILS,setgroupdetails] = useState([])
 
   useEffect(()=>{
 
@@ -36,6 +48,18 @@ function App() {
       setlogin(true)
       setuserid(response.data.user_id)
       setuser_name(response.data.username)
+
+      var clientsocket = io("http://localhost:8000",{
+        query:{
+          token: Cookies.get('jwt')  
+        }
+      })
+
+      console.log("CLIENT SOCKET CREATED: ",clientsocket)
+      setsocket(clientsocket)
+
+
+
     })
     .catch((error)=>{
       setlogin(false)
@@ -59,10 +83,11 @@ function App() {
     <div className="App">
     
     <BrowserRouter>
-    <MyContext.Provider value={{LOGGED_IN,setlogin,USER_ID,setuserid,GROUPS_JOINED,setgroupsjoined,USER_NAME,setuser_name}}>
+    <MyContext.Provider value={{LOGGED_IN,setlogin,USER_ID,setuserid,GROUPS_JOINED,setgroupsjoined,USER_NAME,setuser_name,
+    SOCKET,setsocket,CURRENT_ROOM_JOINED,setroomjoined,ROOM_NAME,setroomname,GROUP_ADMIN,setgroupadmin,GROUP_DETAILS,setgroupdetails}}>
     <Navbar/>
-    <Sidebar/>
       <Routes>
+        <Route path='/home' element={<Sidebar/>}/>
         <Route path='/Login' element={<Login/>}/>
         <Route path='/Signup' element={<Signup/>}/>
       </Routes>

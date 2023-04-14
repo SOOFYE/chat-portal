@@ -70,6 +70,7 @@ function Navbar() {
         .then((response)=>{
           const { JOINED_G } = response.data
           setgroupsjoined(JOINED_G)
+          setJGN('')
         }).catch((error)=>{
           console.log(error)
         })
@@ -77,8 +78,13 @@ function Navbar() {
 
     })
     .catch((error)=>{
-      seterror(error.response.data)
-      console.log(error.response.data)
+      seterror(error.response.data.message)
+      console.log(error.response.data.message)
+      setTimeout(()=>{
+        seterror('')
+        setJGN('')
+      },1500)
+
     })
   }
 
@@ -102,13 +108,15 @@ Join Group</label>
 <div class="modal">
   <div class="modal-box">
     <h3 class="font-bold text-lg">Enter Group ID to join:</h3>
+    <p>{ERROR_MESSAGE}</p>
     <div class="form-control">
   <div class="input-group block mt-2">
     <input type="text" placeholder="Group ID" class="input input-bordered" value={JoinGroupName} onChange={(e)=>{setJGN(e.target.value)}} />
   </div>
 </div>
     <div class="modal-action">
-    <button  onClick={JoinGroup} for="my-modal_1" class="btn">Join!</button>
+    <button  onClick={JoinGroup} for="my-modal" class="btn">Join!</button>
+    <label for="my-modal" class="btn btn-error">Close</label>
     </div>
   </div>
 </div>

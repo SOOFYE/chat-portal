@@ -122,6 +122,70 @@ router.route('/GetJoinedRooms').get(authRoute,async(req,res)=>{
         }
 })
 
+router.route('/AddUserInGroup').post(authRoute,async(req,res)=>{
+
+  const {adduser,CURRENT_ROOM_JOINED} = req.body
+
+  console.log(req.body)
+
+  try{
+    const user = await Users.exists({ username: adduser });
+
+    if(user){
+      const user_details = await Users.findOne({username: adduser})
+
+      if (user_details.joinedGroups.includes(CURRENT_ROOM_JOINED)){
+        res.status(400).json('User is already in this group')
+      }
+
+      Rooms.findOneAndUpdate(
+        { _id: CURRENT_ROOM_JOINED },
+        { $addToSet: { members: user_details._id } }
+      ).then(()=>{
+        //res.status(201).json('User Added in the Group')
+
+       Users.findOneAndUpdate(
+        {username:adduser },
+        {$addToSet: {joinedGroups:CURRENT_ROOM_JOINED }}
+       ).then(()=>{
+        res.status(201).json('User Added in the Group')
+       }).catch((error)=>{
+        console.log(error)
+       })
+
+      }).catch((error)=>{
+        console.log(error)
+      })
+    }
+    else{
+      res.status(400).json('NO USER FOUND')
+    }
+
+  }catch(error){
+
+    console.log(error)
+
+  }
+})
+
+router.route('/GetALLGROUPDETAILS').post(authRoute,async(req,res)=>{
+
+  const { CURRENT_ROOM_JOINED } = req.body
+
+  try{
+
+  const all_users = await Rooms.findOne({_id: CURRENT_ROOM_JOINED}).populate('members').populate('admin');
+
+
+  res.status(201).json({USER_DETAILS:all_users})
+
+  }catch(error){
+    res.status(500).json(error)
+  }
+
+
+})
+
 
 
 

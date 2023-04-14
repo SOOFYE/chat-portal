@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import MyContext from '../MyContext'
 
+import { io } from "socket.io-client"
+
+import Cookies from 'js-cookie';
 
 function Signup() {
 
@@ -10,7 +13,7 @@ function Signup() {
 
     const targetRef = useRef(null)
 
-    const { LOGGED_IN, setlogin, setuserid, setuser_name } = useContext(MyContext) 
+    const { LOGGED_IN, setlogin, setuserid, setuser_name, setsocket } = useContext(MyContext) 
 
 
     const [username,setUsername] = useState("")
@@ -69,6 +72,16 @@ function Signup() {
         setuserid(Userid)
         setuser_name(username)
         setlogin(true)
+
+        var clientsocket = io("http://localhost:8000",{
+          query:{
+            token: Cookies.get('jwt')  
+          }
+        })
+
+        console.log("CLIENT SOCKET CREATED: ",clientsocket)
+        setsocket(clientsocket)
+
         navigate('/home')
         
       })

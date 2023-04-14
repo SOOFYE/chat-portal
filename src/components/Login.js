@@ -3,13 +3,16 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import MyContext from '../MyContext'
 
+import { io } from "socket.io-client"
+
+import Cookies from 'js-cookie';
 
 
 function Login() {
 
   const navigate = useNavigate();
 
-  const { LOGGED_IN, setlogin, setuserid, setuser_name } = useContext(MyContext) 
+  const { LOGGED_IN, setlogin, setuserid, setuser_name, setsocket, setgroupsjoined } = useContext(MyContext) 
 
     const targetRef = useRef(null)
 
@@ -37,6 +40,28 @@ function Login() {
         setuserid(Userid)
         setuser_name(username)
         setlogin(true)
+
+        var clientsocket = io("http://localhost:8000",{
+          query:{
+            token: Cookies.get('jwt')  
+          }
+        })
+        console.log("CLIENT SOCKET CREATED: ",clientsocket)
+        setsocket(clientsocket)
+
+
+        // GETTING ROOMS ALREADY JOINED!!!!!
+        axios.get("http://localhost:5000/GetJoinedRooms",{
+          withCredentials: true
+        })
+        .then((response)=>{
+          const { JOINED_G } = response.data
+          setgroupsjoined(JOINED_G)
+        }).catch((error)=>{
+          console.log(error)
+        })
+
+
         navigate('/home')
 
       })
@@ -58,6 +83,7 @@ function Login() {
 
 
     useEffect(()=>{
+
         if (targetRef.current) {
             targetRef.current.scrollIntoView({ behavior: 'smooth' })
         }
