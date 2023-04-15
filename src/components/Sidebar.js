@@ -50,9 +50,9 @@ function Sidebar() {
   },[LOGGED_IN])
 
   return (
-    <div class="flex ">
+    <div class="flex  ">
 
-    <div class="flex-initial w-[450px] drawer drawer-mobile">
+    <div class="flex-initial w-[350px] h-screen drawer drawer-mobile ">
   
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex mx-10 my-10 items-left ">
@@ -65,15 +65,15 @@ function Sidebar() {
     
       <label for="my-drawer-2" class="drawer-overlay"></label> 
       
-      <ul class="menu p-0 w-80 bg-gray-50 text-base-content ">
-        <h1 class=" p-4 w-80 bg-gray-50 text-base-content text-2xl font-black ">Joined Groups</h1>
+      <ul class="menu p-0 w-80 bg-gray-50 text-base-content border-r ">
+        <h1 class=" p-4 w-80 bg-gray-50 border-r  text-base-content text-2xl font-black ">Joined Groups</h1>
         
         {GROUPS_JOINED.length > 0 ? GROUPS_JOINED.slice(0).reverse().map((group, index) => {
           return (
             <li onClick={()=>{JOIN_ROOM(group._id,group.name,group.admin)}} className='hover:bg-gray-200 h-12  border-b-2 relative' key={index}>
               <p class='font-bold text-lg'>{group.name}</p>
               
-              <span className="absolute top-0 right-0 mt-1 mr-1">
+              <span  className="absolute top-0 right-0 mt-1 mr-1 pointer-events-none ">
                 <span  className=" whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700">
                   {group.admin === USER_ID ? 'ADMIN' : 'MEMBER'}
                 </span>

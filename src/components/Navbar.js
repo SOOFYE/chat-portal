@@ -89,7 +89,7 @@ function Navbar() {
   }
 
   return (
-    <div class="navbar bg-base-400">
+    <div class="navbar border-b  bg-base-400">
 
     <div class="flex-1">
       <a class="btn btn-ghost normal-case text-xl mr-[90px]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
