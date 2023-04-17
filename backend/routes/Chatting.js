@@ -188,5 +188,56 @@ router.route('/GetALLGROUPDETAILS').post(authRoute,async(req,res)=>{
 
 
 
+router.route('/SaveGroupMessages').post(authRoute,(req,res)=>{
+
+  const {USER_ID,MESSAGE,ROOM_ID} = req.body
+
+  console.log(req.body)
+
+  
+    Rooms.findOneAndUpdate(
+      {_id:ROOM_ID},
+      {$push: 
+        {Messages:
+          {"message":MESSAGE,
+          "sender":USER_ID}}}
+      
+      ).then(
+        res.status(201).json('Message Saved')
+      ).catch(err=>{
+        console.log(err)
+        res.status(500).json('Error Saving Messages!!!!')
+      })
+  
+  
+
+
+})
+
+
+
+router.route('/GetGroupMessages/:ROOM_ID').get(async (req,res)=>{
+
+  console.log('GET MESSAGES1!!!!!')
+  const {ROOM_ID} = req.params
+
+
+  console.log(req.params)
+
+  try{
+    const Room = await Rooms.findOne({_id: ROOM_ID}).populate('Messages.sender');
+    console.log(Room.Messages);
+    res.status(200).json(Room.Messages);
+  }
+  catch(err){
+    res.status(401).json("Error Getting Message!")
+    console.log(err.response);
+  }
+
+    
+
+})
+
+
 
 module.exports = router;

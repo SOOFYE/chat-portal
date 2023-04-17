@@ -4,25 +4,44 @@ import axios from 'axios'
 
 function ChatPortal() {
 
-  const {SOCKET,USER_NAME,ROOM_NAME, USER_ID, GROUP_ADMIN, CURRENT_ROOM_JOINED, GROUP_DETAILS} = useContext(MyContext)
+  const {SOCKET,USER_NAME,ROOM_NAME, USER_ID, GROUP_ADMIN, CURRENT_ROOM_JOINED, GROUP_DETAILS,LOAD_MESSAGES,setloadmessages} = useContext(MyContext)
   const [Message,setmessage] = useState('')
 
-  const [LOAD_MESSAGES,setloadmessages] = useState([])
+  
 
   const [adduser,setadduser] = useState('')
 
   const [addingERROR,setADDERROR] = useState('')
   const [addingACCEPT,setACCEPT] = useState('')
 
-  const [groupDetails,setdetails] = useState('')
+  //const [groupDetails,setdetails] = useState('')
 
   const chatBox = useRef(null);
 
-
+ 
 
 
   const Send_Message = ()=>{
     SOCKET.emit('Send-Message',Message,USER_NAME,addYOUmessage)
+
+    const ARGS_INFO = {
+      USER_ID: USER_ID,
+      MESSAGE: Message,
+      ROOM_ID: CURRENT_ROOM_JOINED
+    }
+
+    console.log('MSESADSADSAD')
+    axios.post("http://localhost:5000/SaveGroupMessages",ARGS_INFO,{
+        withCredentials: true,
+      }).then((response)=>{
+        console.log('SAVED MESSAGES: ',response)
+
+      }).catch((error)=>{
+        console.log(error)
+      })
+
+
+
   }
 
   SOCKET.on('Recieve-Message',(message,username)=>{

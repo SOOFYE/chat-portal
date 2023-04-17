@@ -35,6 +35,7 @@ function App() {
   const [CURRENT_ROOM_JOINED, setroomjoined] = useState('') //id
   const [ROOM_NAME,setroomname] = useState('')
   const [GROUP_ADMIN,setgroupadmin] = useState('')
+  const [LOAD_MESSAGES,setloadmessages] = useState([])
 
 
   const [GROUP_DETAILS,setgroupdetails] = useState([])
@@ -84,7 +85,8 @@ function App() {
     
     <BrowserRouter>
     <MyContext.Provider value={{LOGGED_IN,setlogin,USER_ID,setuserid,GROUPS_JOINED,setgroupsjoined,USER_NAME,setuser_name,
-    SOCKET,setsocket,CURRENT_ROOM_JOINED,setroomjoined,ROOM_NAME,setroomname,GROUP_ADMIN,setgroupadmin,GROUP_DETAILS,setgroupdetails}}>
+    SOCKET,setsocket,CURRENT_ROOM_JOINED,setroomjoined,ROOM_NAME,setroomname,GROUP_ADMIN,setgroupadmin,GROUP_DETAILS,setgroupdetails
+    ,LOAD_MESSAGES,setloadmessages}}>
     <Navbar/>
       <Routes>
         <Route path='/home' element={<Sidebar/>}/>

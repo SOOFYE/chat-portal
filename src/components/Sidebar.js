@@ -9,9 +9,11 @@ function Sidebar() {
 
   const navigate = useNavigate();
 
-  const { LOGGED_IN, GROUPS_JOINED,USER_ID, SOCKET, setroomjoined, setroomname, setlogin, setgroupadmin, setgroupdetails } = useContext(MyContext)
+  const { LOGGED_IN, GROUPS_JOINED,USER_ID, SOCKET, setroomjoined, setroomname, setlogin, setgroupadmin, setgroupdetails,LOAD_MESSAGES,setloadmessages } = useContext(MyContext)
   
   const JOIN_ROOM = (ROOM_ID,ROOM_NAME,GROUP_ADM)=>{
+
+    setloadmessages([])
     
     SOCKET.emit('Join-Room',ROOM_ID)
     setroomjoined(ROOM_ID)
@@ -21,14 +23,63 @@ function Sidebar() {
 
     const ARGS_INFO = {CURRENT_ROOM_JOINED:ROOM_ID}
 
-    axios.post("http://localhost:5000/GetALLGROUPDETAILS",ARGS_INFO,{
+    axios.post("http://localhost:5000/GetALLGROUPDETAILS",ARGS_INFO,{ //get all group emmebers, group admin info and all.
       withCredentials: true,
     }).then((response)=>{
-      console.log(response)
+      console.log('Got group details!: ',response)
       setgroupdetails(response.data.USER_DETAILS)
     }).catch((error)=>{
       console.log(error)
     })
+
+
+    //GET GROUP MESSAGES SAVED!!!!!
+
+    axios.get("http://localhost:5000/GetGroupMessages"+`/${ROOM_ID}`)
+    .then((response) => {
+      console.log('Got Groyp Messages: ',response)
+      if(response.data!==null){
+        let newMessages = [];
+        response.data.map((messages)=>{
+          if(messages.sender._id===USER_ID){
+            newMessages.push(
+              <div key ={messages._id} class="chat chat-end ml-auto mr-12 ">
+                <div class="chat-image avatar">
+                  <div class="w-10 rounded-full">
+                    <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                  </div>
+                </div>
+                <div class="chat-header">
+                  You
+                </div>
+                <div class="chat-bubble bg-blue-800 font-medium ">{messages.message}</div>
+              </div>
+            );
+          } else{
+            newMessages.push(
+              <div key ={messages._id} class="chat chat-start">
+                <div class="chat-image avatar">
+                  <div class="w-10 rounded-full">
+                    <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                  </div>
+                </div>
+                <div class="chat-header">
+                  {messages.sender.username}
+                </div>
+                <div class="chat-bubble font-medium">{messages.message}</div>
+              </div>
+            );
+          }
+        });
+        setloadmessages(prevMessages => prevMessages.concat(newMessages));
+      }
+    })
+    .catch((error)=>{
+      console.log(error)
+    });
+
+
+
 
   }
 
