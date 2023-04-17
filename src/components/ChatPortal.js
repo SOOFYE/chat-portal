@@ -4,7 +4,7 @@ import axios from 'axios'
 
 function ChatPortal() {
 
-  const {SOCKET,USER_NAME,ROOM_NAME, USER_ID, GROUP_ADMIN, CURRENT_ROOM_JOINED, GROUP_DETAILS,LOAD_MESSAGES,setloadmessages} = useContext(MyContext)
+  const {SOCKET,USER_NAME,ROOM_NAME, USER_ID, GROUP_ADMIN, CURRENT_ROOM_JOINED, GROUP_DETAILS,LOAD_MESSAGES,setloadmessages, setgroupdetails} = useContext(MyContext)
   const [Message,setmessage] = useState('')
 
   
@@ -110,6 +110,20 @@ function ChatPortal() {
         console.log(response)
         setACCEPT(response.data)
 
+
+        axios.post("http://localhost:5000/GetALLGROUPDETAILS",ARGS_INFO,{ //get all group emmebers, group admin info and all.
+      withCredentials: true,
+    }).then((response)=>{
+      console.log('Got group details!: ',response)
+      setgroupdetails(response.data.USER_DETAILS)
+    }).catch((error)=>{
+      console.log(error)
+    })
+
+
+
+
+
         setTimeout(()=>{
           setACCEPT('')
           setadduser('')
@@ -128,29 +142,39 @@ function ChatPortal() {
   }
 
 
-  // const Load_members = ()=>{
+  const handleKick = (useriddd)=>{
+
+    const ARGS_INFO = {
+      USER_ID: useriddd,
+      GROUP_ID: CURRENT_ROOM_JOINED
+
+    }
+
+    axios.post("http://localhost:5000/KickUser",ARGS_INFO,{
+        withCredentials: true,
+      }).then((response)=>{
+        console.log(response)
+
+        axios.post("http://localhost:5000/GetALLGROUPDETAILS",{CURRENT_ROOM_JOINED},{ //get all group emmebers, group admin info and all.
+        withCredentials: true,
+      }).then((response)=>{
+        console.log('Got group details!: ',response)
+        setgroupdetails(response.data.USER_DETAILS)
+      }).catch((error)=>{
+        console.log(error)
+      })
+
+        SOCKET.emit('Kick-User',useriddd)
+
+      }).catch((error)=>{
+        console.log(error)
+      })
 
 
-  //   const ARGS_INFO = {CURRENT_ROOM_JOINED}
 
-  //   axios.post("http://localhost:5000/GetMembersInGroup",ARGS_INFO,{
-  //     withCredentials: true,
-  //   }).then((response)=>{
-  //     console.log(response)
-
-  //     const {USER_DETAILS} = response.data
+  }
 
 
-
-
-
-
-  //   }).catch((error)=>{
-  //     console.log(error)
-  //   })
-
-  // }
-  
 
 
   useEffect(()=>{
@@ -290,7 +314,7 @@ Leave</button>
           </td>        
         
           {GROUP_DETAILS.admin._id===USER_ID?(<th>
-            <button className="btn btn-ghost btn-xs hover:text-red-600">Kick</button>
+            <button onClick={()=>handleKick(item._id)} className="btn btn-ghost btn-xs hover:text-red-600">Kick</button>
           </th>):(<th></th>)}
         </tr> 
       )

@@ -67,6 +67,18 @@ io.on('connection',(socket)=>{
     })
 
 
+    socket.on('Kick-User',UserID=>{
+       
+        s = ConnectedUsers[UserID]
+        if(s !== undefined && s!== null){
+            console.log('KICKING USER')
+            s.emit('Alert-User')
+        }
+        else
+            console.log('no user currently added')
+    })
+
+
 
 
 

@@ -40,6 +40,29 @@ function App() {
 
   const [GROUP_DETAILS,setgroupdetails] = useState([])
 
+
+
+
+
+  SOCKET.on('Alert-User',()=>{
+    console.log('ALERTED USER')
+    setroomjoined('')
+    setroomname('')
+
+    axios.get("http://localhost:5000/GetJoinedRooms",{
+      withCredentials: true
+    })
+    .then((response)=>{
+      const { JOINED_G } = response.data
+      setgroupsjoined(JOINED_G)
+    }).catch((error)=>{
+      console.log(error)
+    })
+
+  })
+
+  
+
   useEffect(()=>{
 
     axios.get("http://localhost:5000/VerifyLoggedin",{

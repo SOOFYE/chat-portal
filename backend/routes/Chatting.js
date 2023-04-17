@@ -239,5 +239,34 @@ router.route('/GetGroupMessages/:ROOM_ID').get(async (req,res)=>{
 })
 
 
+router.route('/KickUser').post(authRoute,async (req,res)=>{
+
+  const {USER_ID,GROUP_ID} = req.body
+  
+  try{
+  const deleted = await Users.findOneAndUpdate(
+    {_id: USER_ID},
+    {$pull: {joinedGroups: GROUP_ID}
+    })
+
+  const updatedJoinedMembers =  await Rooms.findOneAndUpdate(
+    {_id: GROUP_ID},
+    {$pull: {members: USER_ID }}
+  )
+
+
+  
+    res.status(201).json('DELETED')
+
+  }catch(error){
+    res.status(401).json('ERROR while kicking user.!')
+  }
+ 
+
+
+
+})
+
+
 
 module.exports = router;

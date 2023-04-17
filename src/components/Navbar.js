@@ -99,9 +99,10 @@ ChatVerse</a>
 
 {LOGGED_IN ? (<div>
 {/* JOIN GROUP */}
-<label for="my-modal" class="btn btn-sm btn-square  btn-outline btn-secondary  mr-4 w-[130px] h-12"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-1">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+<label for="my-modal" class="btn btn-sm btn-square  btn-outline btn-secondary  mr-4 w-[130px] h-12"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-1 w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
 </svg>
+
 Join Group</label>
 
 <input type="checkbox" id="my-modal" class="modal-toggle" />
