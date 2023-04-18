@@ -24,6 +24,7 @@ import {
 } from "react-router-dom";
 import Sidebar from './components/Sidebar';
 import ChatPortal from './components/ChatPortal';
+import JoinGroupRedrct from './components/JoinGroupRedrct';
 
 
 function App() {
@@ -111,8 +112,10 @@ function App() {
     SOCKET,setsocket,CURRENT_ROOM_JOINED,setroomjoined,ROOM_NAME,setroomname,GROUP_ADMIN,setgroupadmin,GROUP_DETAILS,setgroupdetails
     ,LOAD_MESSAGES,setloadmessages}}>
     <Navbar/>
+    
       <Routes>
         <Route path='/home' element={<Sidebar/>}/>
+        <Route path='/JoinGroup/:roomid' element={<JoinGroupRedrct/>}/>
         <Route path='/Login' element={<Login/>}/>
         <Route path='/Signup' element={<Signup/>}/>
       </Routes>

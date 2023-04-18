@@ -267,6 +267,31 @@ router.route('/KickUser').post(authRoute,async (req,res)=>{
 
 })
 
+router.route('/GetGroupMessages/:ROOM_ID').get(async (req,res)=>{
+
+  console.log('GET MESSAGES1!!!!!')
+  const {ROOM_ID} = req.params
+
+
+  console.log(req.params)
+
+  try{
+    const Room = await Rooms.findOne({_id: ROOM_ID}).populate('Messages.sender');
+    console.log(Room.Messages);
+    res.status(200).json(Room.Messages);
+  }
+  catch(err){
+    res.status(401).json("Error Getting Message!")
+    console.log(err.response);
+  }
+
+    
+
+})
+
+
+
+
 
 
 module.exports = router;
