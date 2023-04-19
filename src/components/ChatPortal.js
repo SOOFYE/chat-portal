@@ -4,8 +4,10 @@ import axios from 'axios'
 
 function ChatPortal() {
 
-  const {SOCKET,USER_NAME,ROOM_NAME, USER_ID, GROUP_ADMIN, CURRENT_ROOM_JOINED, GROUP_DETAILS,LOAD_MESSAGES,setloadmessages, setgroupdetails} = useContext(MyContext)
+  const {SOCKET,USER_NAME,ROOM_NAME, USER_ID, GROUP_ADMIN, CURRENT_ROOM_JOINED, GROUP_DETAILS,LOAD_MESSAGES,setloadmessages, setgroupdetails,ALERT,setalert} = useContext(MyContext)
   const [Message,setmessage] = useState('')
+
+ 
 
   
 
@@ -14,6 +16,8 @@ function ChatPortal() {
   const [addingERROR,setADDERROR] = useState('')
   const [addingACCEPT,setACCEPT] = useState('')
 
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [fileName, setFileName] = useState('');
   //const [groupDetails,setdetails] = useState('')
 
   const chatBox = useRef(null);
@@ -21,13 +25,26 @@ function ChatPortal() {
  
 
 
-  const Send_Message = ()=>{
-    SOCKET.emit('Send-Message',Message,USER_NAME,addYOUmessage)
+  const Send_Message = (isfile,fileName)=>{
+
+    let MESSSAGE = ''
+
+    if(isfile===true){
+      MESSSAGE = fileName
+      console.log('********',fileName)
+       SOCKET.emit('Send-Message',fileName,isfile,USER_NAME,addYOUmessage)
+    }else{
+      MESSSAGE = Message
+      SOCKET.emit('Send-Message',Message,isfile,USER_NAME,addYOUmessage)
+    }
+
+    
 
     const ARGS_INFO = {
       USER_ID: USER_ID,
-      MESSAGE: Message,
-      ROOM_ID: CURRENT_ROOM_JOINED
+      MESSAGE: MESSSAGE,
+      ROOM_ID: CURRENT_ROOM_JOINED,
+      isFile: isfile
     }
 
     console.log('MSESADSADSAD')
@@ -44,24 +61,24 @@ function ChatPortal() {
 
   }
 
-  SOCKET.on('Recieve-Message',(message,username)=>{
+  SOCKET.on('Recieve-Message',(message,isfile,username)=>{
 
     setloadmessages(
       LOAD_MESSAGES.concat(
         <div key ={LOAD_MESSAGES.length} class="chat chat-start">
         <div class="chat-image avatar">
           <div class="w-10 rounded-full">
-            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            <img src="https://source.unsplash.com/8eYI8qcEFxI" />
           </div>
         </div>
         <div class="chat-header">
           {username}
           {/* <time class="text-xs opacity-50">12:45</time> */}
         </div>
-        <div class="chat-bubble font-medium">{message}</div>
-        {/* <div class="chat-footer opacity-50">
-          Delivered
-        </div> */}
+        <div class="chat-bubble font-medium inline">{message} {isfile ? (<button onClick={()=>handleDownload(message)} className='tooltip mx-1 inline' data-tip="Download file"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+</svg>
+</button>):(<div></div>)}</div>
       </div>
 
       )
@@ -69,20 +86,23 @@ function ChatPortal() {
 
   })
 
-  const addYOUmessage = (message)=>{
+  const addYOUmessage = (message,isfile)=>{
     setloadmessages(
       LOAD_MESSAGES.concat(
             <div key ={LOAD_MESSAGES.length} class="chat chat-end ml-auto mr-12 ">
         <div class="chat-image avatar">
           <div class="w-10 rounded-full">
-            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            <img src="https://source.unsplash.com/8eYI8qcEFxI" />
           </div>
         </div>
         <div class="chat-header">
           You
           {/* <time class="text-xs opacity-50">12:46</time> */}
         </div>
-        <div class="chat-bubble bg-blue-800 font-medium ">{message}</div>
+        {isfile ? (<div class="chat-bubble chat-bubble-success font-medium "><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+</svg>
+{message}</div>):(<div class="chat-bubble bg-blue-800 font-medium ">{message}</div>)}
         {/* <div class="chat-footer opacity-50">
           Seen at 12:46
         </div> */}
@@ -176,6 +196,97 @@ function ChatPortal() {
 
   }
 
+  const handleFileInput = (e)=>{
+    setSelectedFile(e.target.files[0]);
+    
+    setFileName(e.target.files[0].name);
+
+    console.log(e.target.files[0])
+
+    
+    const formData = new FormData();
+    formData.append("file",e.target.files[0]);
+  
+    // Log the FormData object after a delay of 500ms
+    setTimeout(() => {
+      console.log(Object.fromEntries(formData));
+
+      axios
+      .post("http://localhost:5000/UploadFile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+
+        Send_Message(true,response.data)
+
+
+
+      })
+      .catch((error) => {
+        console.log(error);
+        setalert(<div class="alert alert-error shadow-lg">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span>Error! Upload Failed</span>
+        </div>
+      </div>)
+
+    setTimeout(() => {
+      setalert('')
+    }, 2000);
+      });
+
+
+    }, 2000);
+  };
+    
+
+  const handleDownload = (filename)=>{
+    axios.get('http://localhost:5000/DownloadFile'+`/${filename}`)
+    .then(()=>{
+      console.log('FILE DOWNLOADED')
+
+      setalert(<div class="alert alert-success shadow-lg">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span>Downloaded File successfully in your Downloads Directory</span>
+      </div>
+    </div>)
+
+    setTimeout(() => {
+      setalert('')
+    }, 3000);
+
+    }
+
+      )
+      .catch((error)=>{
+        console.log(error)
+
+        setalert(<div class="alert alert-error shadow-lg">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span>Error! Download failed</span>
+        </div>
+      </div>)
+
+    setTimeout(() => {
+      setalert('')
+    }, 2000);
+
+      
+      })
+
+
+  } 
+
+
+
+  
+
 
 
 
@@ -195,9 +306,8 @@ function ChatPortal() {
   return CURRENT_ROOM_JOINED ? (
 
     
-
-
     <div className='h-screen overflow-y-clip'>
+    <div>{ALERT}</div>
 
 <div class='flex items-center bg-gray-50 border'>
   <h1 class='ml-1 inline-flex text-3xl font-black  p-2  '>{ROOM_NAME}</h1><button onClick={()=>{navigator.clipboard.writeText(`http://localhost:3000/JoinGroup/${CURRENT_ROOM_JOINED}`);}} className='tooltip tooltip-bottom inline mt-1' data-tip="Copy Group URL" ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -284,7 +394,7 @@ Leave</button>
         <div key={GROUP_DETAILS.admin._id} className="flex items-center space-x-3">
           <div className="avatar">
             <div className="mask mask-squircle w-12 h-12">
-              <img src="/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" />
+              <img src="https://source.unsplash.com/8eYI8qcEFxI" alt="Avatar Tailwind CSS Component" />
             </div>
           </div>
           <div>
@@ -306,7 +416,7 @@ Leave</button>
             <div className="flex items-center space-x-3">
               <div className="avatar">
                 <div className="mask mask-squircle w-12 h-12">
-                  <img src="/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" />
+                  <img src="https://source.unsplash.com/8eYI8qcEFxI" alt="Avatar Tailwind CSS Component" />
                 </div>
               </div>
               <div>
@@ -375,14 +485,30 @@ Leave</button>
 <div class="flex items-center relative mx-12 my-[120px]">
   <input value={Message} onChange={(e)=>{setmessage(e.target.value)}} type="text" placeholder="Type your message here..." class="w-full px-8 py-3 rounded-full bg-gray-200 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white focus:placeholder-gray-400"/>
   <button 
-    onClick={Send_Message} 
-    className={Message !== '' && Message !== ' ' ? "absolute right-0 top-1/2 transform -translate-y-1/2 mr-3 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 px-4 py-2" : "absolute right-0 top-1/2 transform -translate-y-1/2 mr-3 text-gray-600 focus:outline-none focus:text-gray-800 opacity-40 cursor-not-allowed  text-gray-600 py-2 px-4"}
+    onClick={()=>Send_Message(false,undefined)} 
+    className={Message !== '' && Message !== ' ' ? "absolute right-4 top-1/2 transform -translate-y-1/2 mr-3 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 px-4 py-2" : "absolute right-4 top-1/2 transform -translate-y-1/2 mr-3 text-gray-600 focus:outline-none focus:text-gray-800 opacity-40 cursor-not-allowed  text-gray-600 py-2 px-4"}
     disabled={Message === '' || Message === ' '}
 >
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
     </svg>
 </button>
+ 
+
+<label htmlFor="file-input" className="cursor-pointer absolute -right-5 top-1/2 transform -translate-y-1/2 mr-3 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 px-4 py-2">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
+</svg>
+  <input
+    id="file-input"
+    type="file"
+    className="sr-only"
+    onChange={handleFileInput}
+    //disabled={file !== null}
+  />
+</label>
+
+
 </div>
 
 

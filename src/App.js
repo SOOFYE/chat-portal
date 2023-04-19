@@ -41,6 +41,7 @@ function App() {
 
   const [GROUP_DETAILS,setgroupdetails] = useState([])
 
+  const [ALERT,setalert] = useState('')
 
 
 
@@ -110,7 +111,7 @@ function App() {
     <BrowserRouter>
     <MyContext.Provider value={{LOGGED_IN,setlogin,USER_ID,setuserid,GROUPS_JOINED,setgroupsjoined,USER_NAME,setuser_name,
     SOCKET,setsocket,CURRENT_ROOM_JOINED,setroomjoined,ROOM_NAME,setroomname,GROUP_ADMIN,setgroupadmin,GROUP_DETAILS,setgroupdetails
-    ,LOAD_MESSAGES,setloadmessages}}>
+    ,LOAD_MESSAGES,setloadmessages,ALERT,setalert}}>
     <Navbar/>
     
       <Routes>

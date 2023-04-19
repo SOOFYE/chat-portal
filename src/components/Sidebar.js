@@ -9,8 +9,57 @@ function Sidebar() {
 
   const navigate = useNavigate();
 
-  const { LOGGED_IN, GROUPS_JOINED,USER_ID, SOCKET, setroomjoined, setroomname, setlogin, setgroupadmin, setgroupdetails,setloadmessages, setgroupsjoined } = useContext(MyContext)
+  const { LOGGED_IN, GROUPS_JOINED,USER_ID, SOCKET, setroomjoined, 
+    setroomname, setlogin, setgroupadmin, setgroupdetails,
+    setloadmessages, setgroupsjoined, setalert } = useContext(MyContext)
   
+
+  const handleDownload = (filename)=>{
+    axios.get('http://localhost:5000/DownloadFile'+`/${filename}`)
+    .then(()=>{
+      console.log('FILE DOWNLOADED')
+
+      setalert(<div class="alert alert-success shadow-lg">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span>Downloaded File successfully in your Downloads Directory</span>
+      </div>
+    </div>)
+
+    setTimeout(() => {
+      setalert('')
+    }, 3000);
+
+    }
+
+      )
+      .catch((error)=>{
+        console.log(error)
+
+        setalert(<div class="alert alert-error shadow-lg">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span>Error! Download failed</span>
+        </div>
+      </div>)
+
+    setTimeout(() => {
+      setalert('')
+    }, 2000);
+
+
+
+      
+      })
+
+   
+
+
+  }  
+
+
+
+
   const JOIN_ROOM = (ROOM_ID,ROOM_NAME,GROUP_ADM)=>{
 
     setloadmessages([])
@@ -43,7 +92,7 @@ function Sidebar() {
         response.data.map((messages)=>{
           if(messages.sender._id===USER_ID){
             newMessages.push(
-              <div key ={messages._id} class="chat chat-end ml-auto mr-12 ">
+              <div key ={messages._id} class="chat chat-end ml-auto mr-12">
                 <div class="chat-image avatar">
                   <div class="w-10 rounded-full">
                     <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
@@ -52,7 +101,12 @@ function Sidebar() {
                 <div class="chat-header">
                   You
                 </div>
-                <div class="chat-bubble bg-blue-800 font-medium ">{messages.message}</div>
+                {messages.isFile ? (<div class="chat-bubble chat-bubble-success font-medium "><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+</svg>
+{messages.message}</div>):(<div class="chat-bubble bg-blue-800 font-medium ">{messages.message}</div>)}
+                
+                
               </div>
             );
           } else{
@@ -66,7 +120,11 @@ function Sidebar() {
                 <div class="chat-header">
                   {messages.sender.username}
                 </div>
-                <div class="chat-bubble font-medium">{messages.message}</div>
+                <div class="chat-bubble font-medium inline">{messages.message} {messages.isFile ? (<button onClick={()=>handleDownload(messages.message)} className='tooltip mx-1 inline' data-tip="Download file"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+</svg>
+</button>):(<div></div>)}</div>
+               
               </div>
             );
           }
@@ -82,6 +140,9 @@ function Sidebar() {
   }
 
 
+
+
+
   const refreshGroup = ()=>{
     
     axios.get("http://localhost:5000/GetJoinedRooms",{
@@ -94,10 +155,12 @@ function Sidebar() {
       console.log(error)
     })
 
- 
-
 
   }
+
+
+
+
 
 
   useEffect(()=>{

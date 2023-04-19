@@ -23,6 +23,7 @@ const roomSchema = new mongoose.Schema(
                 type: mongoose.Schema.ObjectId, 
                 ref:'Users',
             },
+            isFile:Boolean
         }]
         
     }

@@ -59,11 +59,11 @@ io.on('connection',(socket)=>{
     })
 
 
-    socket.on('Send-Message',(message,username,addYOUmessage)=>{
-        addYOUmessage(message)
+    socket.on('Send-Message',(message,isfile,username,addYOUmessage)=>{
+        addYOUmessage(message,isfile)
         console.log('Message SENT: ',message)
 
-        socket.broadcast.to(UsersCurrentRoom[socket.USER_ID]).emit('Recieve-Message',message,username)
+        socket.broadcast.to(UsersCurrentRoom[socket.USER_ID]).emit('Recieve-Message',message,isfile,username)
     })
 
 

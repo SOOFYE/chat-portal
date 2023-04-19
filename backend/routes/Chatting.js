@@ -3,6 +3,10 @@ var router = express.Router();
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken")
 
+const ftpClient = require("basic-ftp");
+const fs = require("fs");
+const path = require("path");
+
 const Users = require("../schemas/user.model")
 const Rooms = require("../schemas/room.model");
 
@@ -190,7 +194,7 @@ router.route('/GetALLGROUPDETAILS').post(authRoute,async(req,res)=>{
 
 router.route('/SaveGroupMessages').post(authRoute,(req,res)=>{
 
-  const {USER_ID,MESSAGE,ROOM_ID} = req.body
+  const {USER_ID,MESSAGE,ROOM_ID,isFile} = req.body
 
   console.log(req.body)
 
@@ -200,7 +204,8 @@ router.route('/SaveGroupMessages').post(authRoute,(req,res)=>{
       {$push: 
         {Messages:
           {"message":MESSAGE,
-          "sender":USER_ID}}}
+          "sender":USER_ID,
+          "isFile":isFile}}}
       
       ).then(
         res.status(201).json('Message Saved')
@@ -288,6 +293,7 @@ router.route('/GetGroupMessages/:ROOM_ID').get(async (req,res)=>{
     
 
 })
+
 
 
 
