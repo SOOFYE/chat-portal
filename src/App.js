@@ -25,6 +25,7 @@ import {
 import Sidebar from './components/Sidebar';
 import ChatPortal from './components/ChatPortal';
 import JoinGroupRedrct from './components/JoinGroupRedrct';
+import Settings from './components/Settings';
 
 
 function App() {
@@ -113,12 +114,14 @@ function App() {
     SOCKET,setsocket,CURRENT_ROOM_JOINED,setroomjoined,ROOM_NAME,setroomname,GROUP_ADMIN,setgroupadmin,GROUP_DETAILS,setgroupdetails
     ,LOAD_MESSAGES,setloadmessages,ALERT,setalert}}>
     <Navbar/>
-    
       <Routes>
+      <Route path="/" element={<Navigate to="/home" replace={true} />}></Route>
         <Route path='/home' element={<Sidebar/>}/>
         <Route path='/JoinGroup/:roomid' element={<JoinGroupRedrct/>}/>
         <Route path='/Login' element={<Login/>}/>
         <Route path='/Signup' element={<Signup/>}/>
+        <Route path='/Setting' element={<Settings/>}/>
+
       </Routes>
       </MyContext.Provider> 
     </BrowserRouter>

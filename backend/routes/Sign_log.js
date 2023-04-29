@@ -36,7 +36,10 @@ router.route('/signup').post(async (req,res)=>{
         }
 
         
-        res.cookie('jwt',token)
+        res.cookie('jwt',token,{
+            httpOnly: false,
+        })
+    
 
         res.status(201).json(RETURN_OBJECT)
 
@@ -80,7 +83,9 @@ router.route('/login').post(async(req,res)=>{
     }
 
    
-    res.cookie('jwt',token)
+    res.cookie('jwt',token,{
+        httpOnly: false,
+    })
 
     res.status(200).json(RETURN_OBJECT)
 

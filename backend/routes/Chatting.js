@@ -1,11 +1,7 @@
 const express = require('express')
 var router = express.Router();
 const bcrypt = require('bcrypt')
-const jwt = require("jsonwebtoken")
 
-const ftpClient = require("basic-ftp");
-const fs = require("fs");
-const path = require("path");
 
 const Users = require("../schemas/user.model")
 const Rooms = require("../schemas/room.model");
@@ -292,6 +288,40 @@ router.route('/GetGroupMessages/:ROOM_ID').get(async (req,res)=>{
 
     
 
+})
+
+
+router.route('/changePassword').post(authRoute,async (req,res)=>{
+
+  const {oldPassword,newPassword} = req.body
+
+  console.log('asdasdas')
+
+  const user = await Users.findOne({_id:req.USER_ID_DEC})
+  
+  if(!user)
+    return res.status(401).json('User not found!!!')
+
+  const isMatch = await bcrypt.compare(oldPassword,user.password);
+
+  if(!isMatch)
+    return res.status(401).json("Old Password does not match!");
+
+  const salt = await bcrypt.genSalt(10)
+  hashed_password = await bcrypt.hash(newPassword,salt)
+
+  const updated = await Users.findOneAndUpdate(
+    {_id: req.USER_ID_DEC },
+    {password:hashed_password }
+  )
+
+  if(updated)
+    return res.status(201).json('Password Updated')
+  else
+    return res.status(500).json('Internal Server Error while saving password')
+  
+
+    
 })
 
 

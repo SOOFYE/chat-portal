@@ -165,6 +165,9 @@ function Sidebar() {
 
   useEffect(()=>{
 
+    if(LOGGED_IN===false)
+      navigate('/login')
+
     axios.get("http://localhost:5000/VerifyLoggedin",{
       withCredentials: true
     })
@@ -196,22 +199,35 @@ function Sidebar() {
       <label for="my-drawer-2" class="drawer-overlay"></label> 
       
       <ul class="menu p-0 w-80 bg-gray-50 text-base-content border-r ">
-        <h1 class=" p-4 w-80 bg-gray-50 border-r  text-base-content text-2xl font-black ">Joined Groups <button onClick={()=>refreshGroup()}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="inline w-4 h-4">
+        <h1 class=" p-4 w-80 bg-gray-50 border-r  text-base-content text-2xl font-black ">Joined Servers <button onClick={()=>refreshGroup()}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="inline w-4 h-4">
   <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
 </svg></button></h1>
         
         {GROUPS_JOINED.length > 0 ? GROUPS_JOINED.slice(0).reverse().map((group, index) => {
           return (
-            <li onClick={()=>{JOIN_ROOM(group._id,group.name,group.admin)}} className='hover:bg-gray-200 h-12  border-b-2 relative' key={index}>
-              <p class='font-bold text-lg'>{group.name}</p>
+            <button onClick={()=>{JOIN_ROOM(group._id,group.name,group.admin)}} className='group relative inline-block overflow-hidden border-r  border-gray-600 px-3 py-4 focus:outline-none focus:ring ' key={index}>
+            
+            <span
+    class="absolute inset-y-0 right-0 w-[2px] bg-gray-300 transition-all group-hover:w-full group-active:bg-gray-500"
+  ></span>
+
+    <span
+      class="relative text-sm font-medium text-black transition-colors group-hover:text-black"
+    >
+      {group.name}
+    </span>
               
               <span  className="absolute top-0 right-0 mt-1 mr-1 pointer-events-none ">
-                <span  className=" whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700">
-                  {group.admin === USER_ID ? 'ADMIN' : 'MEMBER'}
+                <span  className=" whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-xs text-purple-700">
+                  {group.admin === USER_ID ? 'Admin' : 'Member'}
                 </span>
               </span>
               
-            </li>
+            </button>
+
+            
+
+
           );
         }) : (
           <div>
