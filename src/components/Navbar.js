@@ -119,14 +119,14 @@ ChatVerse</button></Link>
   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
 </svg></span>
 
-<span class="text-sm font-medium transition-all group-hover:ms-4">
+<span class="text-sm font-medium transition-all group-hover:ms-4 ">
     Join a Server
   </span></label>
 
 <input type="checkbox" id="my-modal" class="modal-toggle" />
 <div class="modal">
   <div class="modal-box">
-    {/* <h3 class="font-bold text-lg">Enter Group ID to join:</h3> */}
+    
     <label
   for="JoinGroup"
   class="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
@@ -144,13 +144,9 @@ ChatVerse</button></Link>
 </label>
 <p className='my-2 font-medium text-lg text-red-700'>{ERROR_MESSAGE}</p>
     
-    {/* <div class="form-control">
-  <div class="input-group block mt-2">
-    <input type="text" placeholder="Group ID" class="input input-bordered" value={JoinGroupName} onChange={(e)=>{setJGN(e.target.value)}} />
-  </div>
-</div> */}
+   
     <div class="modal-action">
-    {/* <button  onClick={JoinGroup} for="my-modal" class="btn">Join!</button> */}
+    
     <button onClick={JoinGroup} for="my-modal"
   class="group relative inline-block text-sm font-medium text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
 >
@@ -162,7 +158,7 @@ ChatVerse</button></Link>
     Join this Server
   </span>
 </button>
-    {/* <label for="my-modal" class="btn btn-error">Close</label> */}
+    
     <label for="my-modal"
   class="group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring active:text-indigo-500"
   
@@ -205,13 +201,9 @@ ChatVerse</button></Link>
     value={CreateGroupName} onChange={(e)=>{setCGN(e.target.value)}}
   />
 </label>
-    {/* <div class="form-control">
-  <div class="input-group block mt-2">
-    <input type="text" placeholder="Group Name" class="input input-bordered" value={CreateGroupName} onChange={(e)=>{setCGN(e.target.value)}}/>
-  </div>
-</div> */}
+    
     <div class="modal-action">
-      {/* <button  onClick={CreateGroup} for="my-modal_1" class="btn">Create!</button> */}
+      
       <button onClick={CreateGroup} for="my-modal"
   class="group relative inline-block text-sm font-medium text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
 >
@@ -223,7 +215,7 @@ ChatVerse</button></Link>
     Create your server
   </span>
 </button>
-      {/* <label for="my-modal_1" class="btn btn-error">Close</label> */}
+      
       <label for="my-modal_1"
   class="group relative inline-block text-sm font-medium text-red-600 focus:outline-none focus:ring active:text-indigo-500"
   
@@ -256,10 +248,10 @@ ChatVerse</button></Link>
 )
 
 : (<div class="flex-none gap-2">
-      <div class="form-control">
+      {/* <div class="form-control">
         <input type="text" placeholder="Search" class="input input-bordered" />
-      </div>
-      <h3>Welcome, {USER_NAME}</h3>
+      </div> */}
+      <h3 className=' ml-3 font-bold text-lg'>Welcome, {USER_NAME}</h3>
       <div class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
@@ -267,12 +259,7 @@ ChatVerse</button></Link>
           </div>
         </label>
         <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-          {/* <li>
-            <a class="justify-between">
-              Profile
-              <span class="badge">New</span>
-            </a>
-          </li> */}
+          
           <li><Link to='/Setting'>Settings</Link></li>
           <li><button onClick={()=>{Logout()}}>Logout</button></li>
         </ul>

@@ -112,10 +112,10 @@ function ChatPortal() {
 
     setmessage('')
 
-    setTimeout(()=>{
-      chatBox.current.scrollIntoView({ behavior: "smooth" ,alignToTop:true})
+    // setTimeout(()=>{
+    //   chatBox.current.scrollIntoView({ behavior: "smooth" ,alignToTop:true})
 
-    },150)
+    // },150)
 
   }
 
@@ -293,9 +293,10 @@ function ChatPortal() {
   useEffect(()=>{
 
     if(CURRENT_ROOM_JOINED)
-      setTimeout(() => {
-        chatBox.current.scrollIntoView({ behavior: "smooth" ,alignToTop:true})
-      }, 150);
+      // setTimeout(() => {
+      //   chatBox.current.scrollIntoView({ behavior: "smooth" ,alignToTop:true})
+      // }, 150);
+      console.log(CURRENT_ROOM_JOINED)
       
       
 
@@ -315,10 +316,10 @@ function ChatPortal() {
 </svg>
 </button>
   <div className='ml-auto inline-flex'>
-  <button className='mr-5 text-medium font-extralight text-red-500 '><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mb-1">
+  {/* <button className='mr-5 text-medium font-extralight text-red-500 '><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline mb-1">
   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
 </svg>
-Leave</button>
+Leave</button> */}
   {GROUP_ADMIN === USER_ID ? (<div className='mr-5'>
 <label for="my-modal-3" class="hover:cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
@@ -329,9 +330,9 @@ Leave</button>
 <div class="modal">
   <div class="modal-box relative">
     <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-    <h3 class="text-lg font-bold">Add Users!</h3>
+    <h3 class="text-lg font-bold mb-4">Add Users!</h3>
     
-    <form action="#" class="mt-8">
+    
       <div
         class="flex bg-gray-100 p-1 items-center w-full space-x-2 sm:space-x- rounded border border-gray-500 dark:bg-gray-700 dark:border-gray-300">
         <button onClick={handleAddUser}>
@@ -345,7 +346,7 @@ Leave</button>
           <p className='font-black text-red-700 text-sm'>{addingERROR}</p>
           <p className='font-black text-green-700 text-sm'>{addingACCEPT}</p>
       </div>
-    </form>
+    
 
     
 

@@ -26,6 +26,7 @@ import Sidebar from './components/Sidebar';
 import ChatPortal from './components/ChatPortal';
 import JoinGroupRedrct from './components/JoinGroupRedrct';
 import Settings from './components/Settings';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -121,8 +122,8 @@ function App() {
         <Route path='/Login' element={<Login/>}/>
         <Route path='/Signup' element={<Signup/>}/>
         <Route path='/Setting' element={<Settings/>}/>
-
       </Routes>
+      <Footer/>
       </MyContext.Provider> 
     </BrowserRouter>
     

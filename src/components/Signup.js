@@ -36,7 +36,7 @@ function Signup() {
     },[])
 
     const backStyles = {
-        background: "url('https://source.unsplash.com/V2OyJtFqEtY') no-repeat center center fixed",
+        background: "url('https://source.unsplash.com/kUHfMW8awpE') no-repeat center center fixed",
         backgroundSize: 'cover',
         height: '100vh',
         backgroundPosition: 'center', // Center the image within the container
@@ -119,61 +119,165 @@ function Signup() {
   {/* <figure><img src="https://source.unsplash.com/6UI2zND_8AM" alt="background"/></figure> */}
   <form onSubmit={handleSubmit}>
   <div class="card-body">
-    <h1 class="text-4xl font-black antialiased font-sans ">Sign up</h1>
+    <h1 class="text-2xl font-black antialiased font-sans mb-3 text-black dark:text-black">Lets Sign up...</h1>
 
-    <div class="form-control w-full max-w-xs">
-  <label class="label">
+    <div class="form-control w-full max-w-xs mb-5">
+
+  {/* <label class="label">
     <span class="label-text text-lg font-bold text-gray-700">Username</span>
-    {/* <span class="label-text-alt">Top Right label</span> */}
+    <span class="label-text-alt">Top Right label</span> 
   </label>
   <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" value={username}  onChange={(e)=>setUsername(e.target.value)} required />
   <label class="label">
-    {/* <span class="label-text-alt">Bottom Left label</span> */}
+     <span class="label-text-alt">Bottom Left label</span> 
     <span class="label-text-alt text-red-700">{ERROR_username}</span>
-  </label>
+  </label> */}
+
+  <label
+  for="username"
+  class="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+>
+  <span class="text-xs font-medium text-gray-700"> Username </span>
+
+  <input
+    type="text"
+    id="username"
+    placeholder="Username"
+    class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+    value={username}  
+    onChange={(e)=>setUsername(e.target.value)} 
+    required
+
+
+  />
+</label>
+<span class="label-text-alt text-red-700">{ERROR_username}</span>
+
 </div>
 
 
 
 
-<div class="form-control w-full max-w-xs">
-  <label class="label">
+<div class="form-control w-full max-w-xs mb-5">
+
+  {/* <label class="label">
     <span class="label-text text-lg font-bold text-gray-700">Email address</span>
-    {/* <span class="label-text-alt">Top Right label</span> */}
+     <span class="label-text-alt">Top Right label</span> 
   </label>
   <input type="email" placeholder="Type here" class="input input-bordered w-full max-w-xs" value={email}  onChange={(e)=>setEmail(e.target.value)} required />
   <label class="label">
-    {/* <span class="label-text-alt">Bottom Left label</span> */}
+     <span class="label-text-alt">Bottom Left label</span> 
     <span class="label-text-alt text-red-700">{ERROR_email}</span>
-  </label>
+  </label> */}
+
+  <label
+  for="emailaddress"
+  class="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+>
+  <span class="text-xs font-medium text-gray-700"> Email Address </span>
+
+  <input
+    type="email"
+    id="emailaddress"
+    placeholder="Email Address"
+    class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+    value={email}  
+    onChange={(e)=>setEmail(e.target.value)} 
+    required
+  />
+</label>
+<span class="label-text-alt text-red-700">{ERROR_email}</span>
 </div>
 
-<div class="form-control w-full max-w-xs">
-  <label class="label">
+<div class="form-control w-full max-w-xs mb-5">
+
+  {/* <label class="label">
     <span class="label-text text-lg font-bold text-gray-700 ">Password</span>
-    {/* <span class="label-text-alt">Top Right label</span> */}
+     <span class="label-text-alt">Top Right label</span> 
   </label>
   <input type="password" placeholder="Type here" class="input input-bordered w-full max-w-xs" value={password}  onChange={(e)=>setPassword(e.target.value)} required />
   <label class="label">
-    {/* <span class="label-text-alt">Bottom Left label</span> */}
+     <span class="label-text-alt">Bottom Left label</span> 
     <span class="label-text-alt text-red-700">{ERROR_password}</span>
-  </label>
+  </label> */}
+
+  <label
+  for="pass"
+  class="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+>
+  <span class="text-xs font-medium text-gray-700"> Password </span>
+
+  <input
+    type="password"
+    id="pass"
+    placeholder="Password"
+    class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+    value={password}  
+    onChange={(e)=>setPassword(e.target.value)} 
+    required
+  />
+</label>
+  <span class="label-text-alt text-red-700">{ERROR_password}</span>
 </div>
 
-<div class="form-control w-full max-w-xs">
-  <label class="label">
+<div class="form-control w-full max-w-xs mb-5">
+
+  {/* <label class="label">
     <span class="label-text text-lg font-bold text-gray-700">Re-Password</span>
-    {/* <span class="label-text-alt">Top Right label</span> */}
+     <span class="label-text-alt">Top Right label</span> 
   </label>
   <input type="password" placeholder="Type here" class="input input-bordered w-full max-w-xs" value={rePass}  onChange={(e)=>setrePass(e.target.value)} required />
   <label class="label">
-    {/* <span class="label-text-alt">Bottom Left label</span> */}
-    <span class="label-text-alt text-red-700">{ERROR_REpassword}</span>
-  </label>
+     <span class="label-text-alt">Bottom Left label</span> 
+    
+  </label> */}
+
+  <label
+  for="repass"
+  class="block overflow-hidden rounded-md border border-gray-200 px-3 py-2 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+>
+  <span class="text-xs font-medium text-gray-700"> Re-Password </span>
+
+  <input
+    type="password"
+    id="repass"
+    placeholder="Re-Password"
+    class="mt-1 w-full border-none p-0 focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm"
+    value={rePass}  
+    onChange={(e)=>setrePass(e.target.value)} 
+    required
+  />
+</label>
+<span class="label-text-alt text-red-700">{ERROR_REpassword}</span>
 </div>
 
     <div class="card-actions justify-end">
-      <input type='submit' class="btn btn-secondary" value='Sign Up'/>
+      {/* <input type='submit' class="btn btn-secondary" value='Sign Up'/> */}
+      <button type='submit'
+      class="group relative inline-flex items-center overflow-hidden rounded bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500"
+  
+>
+  <span class="absolute -end-full transition-all group-hover:end-4">
+    <svg
+      class="h-5 w-5 rtl:rotate-180"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M17 8l4 4m0 0l-4 4m4-4H3"
+      />
+    </svg>
+  </span>
+
+  <span class="text-sm font-medium transition-all group-hover:me-4">
+    Sign up
+  </span>
+</button>
       <span class="label-text-alt block text-red-700">{ERROR_ERROR}</span>
     </div>
   </div>
