@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+# Overview
+The Chat Portal with FTP enabled is a web-based application that allows users to chat with each other in real-time while also providing file transfer functionality through the FTP protocol.
+The chat portal enables users to create accounts and login to the application. Once logged in, users can join public chat rooms and create their own chat rooms. The application is built using modern web technologies such as React, Node.js, Socket.IO for real-time communication, and Filezilla Server as our FTP Server.
+In addition to chat functionality, the application also allows users to upload, download, and manage files through the FTP protocol. This enables users to easily share files with other users in the chat rooms. The application has a user-friendly interface that allows users to easily navigate and interact with the chat and FTP features.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Working Demo
+![loginpage](https://github.com/SOOFYE/chat-portal/assets/84918625/64acebec-b512-40e6-a210-5f0b2eb2810c)
+Login Page 
 
-## Available Scripts
+![createserver](https://github.com/SOOFYE/chat-portal/assets/84918625/273bf120-c75d-4e52-b136-3492bce508d0)
+You can create your own server
 
-In the project directory, you can run:
+![adduser](https://github.com/SOOFYE/chat-portal/assets/84918625/f21f05ba-1116-445f-9272-3459a270f4a8)
+Admin can add users to the group
 
-### `npm start`
+![memebers](https://github.com/SOOFYE/chat-portal/assets/84918625/d3a0c5b5-1c33-4130-b12f-6d164b118bf0)
+View current Members
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![user1side](https://github.com/SOOFYE/chat-portal/assets/84918625/d8fe0452-0347-4b21-8559-55db9312adc8)
+User 1 view of sending/recieving messages
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![user2 side](https://github.com/SOOFYE/chat-portal/assets/84918625/c89f725a-7606-43a9-bd99-affa0ae788c7)
+User 2 view of sending/recieving messages
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Future Work
+While we have successfully built a basic chat application, there is still room for improvement. One of the features that we could add is direct messaging, which allows users to talk one-on-one with each other. This could be done by implementing a new route and Socket.IO event that handles direct messaging.
+Another potential future improvement is to implement better security measures to protect user data, such as encrypting messages and implementing stricter authorization checks. Overall, there are many potential directions for future work, and we hope that this project has provided a solid foundation for building more advanced chat applications in the future.
